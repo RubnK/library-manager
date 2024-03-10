@@ -1,33 +1,38 @@
 <div class="page">
-    <h1 class="titre">Associations</h1>
-    <form method="GET" class="searchfilter">
+    <h1 class="titre">Livres</h1>
+    <form method="GET" class="searchfilter" action="/books">
         <div class="search-wrap">
             <input type="search" name="search" class="search-input" value="<?php if(isset($search)){echo $search;}?>" placeholder="Recherche">
             <button type="submit" class="search-btn"><svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg></button>
         </div>
-        <div class="filter-wrap">
-            <label for="campus">Choisir un campus : </label>
-            <select name="campus" id="campus" onchange="this.form.submit()">
-                <?php 
-                foreach($campus as $name){
-                    echo "<option value='$name'".($_GET['campus'] == $name ? 'selected="true"':"").">$name</option>";
-                }
-                ?>
-            </select>
-        </div>
     </form>
     <div class="catalogue">
         <?php
-        if(empty($AllAssos)){
-            echo "<p class='noasso'>Aucune association trouvée.</p>";
+        if(empty($AllBooks)){
+            echo "<p class='nobook'>Aucun livre trouvé.</p>";
         }
         else{
-            foreach($AllAssos as $id){
+            foreach($AllBooks as $id){
                 include "../views/card.php";
             }
         }
         ?>
     </div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a href="/books?search=<?= $_GET['search'] ?>&page=<?= $currentPage - 1 ?>" class="page-link <?= ($currentPage <= 1) ? "disabled" : "" ?>">< Précédente</a>
+        </li>
+        <?php for($page = 1; $page <= $pages; $page++): ?>
+        <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
+            <a href="/books?search=<?= $_GET['search'] ?>&page=<?= $page ?>" class="page-link"><?= $page ?></a>
+        </li>
+        <?php endfor ?>
+        <li class="page-item <?= ($currentPage >= $pages) ? "disabled" : "" ?>">
+            <a href="/books?search=<?= $_GET['search'] ?>&page=<?= $currentPage + 1 ?>" class="page-link <?= ($currentPage >= $pages) ? "disabled" : "" ?>">Suivante ></a>
+        </li>
+    </ul>
+    <br>
+</div>
 
 <style>
 .page{
@@ -42,7 +47,7 @@
     grid-template-columns: repeat(3,25%);
     justify-content:space-evenly;
 }
-.noasso{
+.nobook{
     position: absolute;
     justify-self: center;
     margin: 4rem;
@@ -52,7 +57,7 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    margin-left: 7%;
 }
 .search-wrap{   
     display: flex;
@@ -77,6 +82,13 @@
 }
 .search-input{
     width: 15rem;
+}
+.disabled{
+    display:none;
+}
+.pagination li{
+    display: inline;
+    margin: 0 0.5rem;
 }
 @media screen and (max-width: 1200px) {
     .catalogue{
