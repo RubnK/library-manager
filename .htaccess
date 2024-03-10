@@ -1,0 +1,23 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^books/\b(.*)$ controllers/afficher_book.php?url=$1 [QSA,L]
+RewriteRule ^books([/]$|$) controllers/afficher_catalogue.php [QSA,L]
+RewriteRule ^return_book([/]$|$) controllers/return_book.php [QSA,L]
+RewriteRule ^create_user([/]$|$) controllers/afficher_create_user.php [QSA,L]
+RewriteRule ^create_author([/]$|$) controllers/afficher_create_author.php [QSA,L]
+RewriteRule ^create_book([/]$|$) controllers/afficher_create_book.php [QSA,L]
+RewriteRule ^add_user([/]$|$) controllers/add_user.php [QSA,L]
+RewriteRule ^add_author([/]$|$) controllers/add_author.php [QSA,L]
+RewriteRule ^add_book([/]$|$) controllers/add_book.php [QSA,L]
+RewriteRule ^delete_user([/]$|$) controllers/delete_user.php [QSA,L]
+RewriteRule ^emprunter([/]$|$) controllers/emprunter_book.php [QSA,L]
+RewriteRule ^users([/]$|$) controllers/afficher_users.php [QSA,L]
+RewriteRule ^delete_book([/]$|$) controllers/delete_book.php [QSA,L]
+RewriteRule ^edit_book([/]$|$) controllers/afficher_edit.php [QSA,L]
+RewriteRule ^delete_book([/]$|$) controllers/delete_book.php [QSA,L]
+RewriteRule ^emprunts([/]$|$) controllers/afficher_emprunts.php [QSA,L]
+RewriteRule ^add_infos([/]$|$) controllers/afficher_add_infos.php [QSA,L]
+RewriteRule ^([/]$|$) controllers/afficher_accueil.php [QSA,L]
